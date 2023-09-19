@@ -7,6 +7,7 @@
 		background-color: white;
 		padding: 15px 0 5px 0 ;
 		border-bottom: 3px solid #e1e1e1;
+		
 	}
 
 	/* Logo */
@@ -70,6 +71,9 @@
 				-webkit-transition-duration: .3s;
 				     -o-transition-duration: .3s;
 				        transition-duration: .3s;
+			}
+			.fa-search{
+				margin-right:0px ;
 			}
 			.input-search button:hover {
 				color: #000;

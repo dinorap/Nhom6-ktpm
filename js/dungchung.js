@@ -521,19 +521,19 @@ function addTopNav() {
 	<div class="top-nav group">
         <section>
             <div class="social-top-nav">
-                <a class="fa fa-facebook"></a>
-                <a class="fa fa-twitter"></a>
-                <a class="fa fa-google"></a>
-                <a class="fa fa-youtube"></a>
+            <a href="#" class="fab fa-facebook"></a>
+            <a href="#" class="fab fa-twitter"></a>
+            <a href="#" class="fab fa-google"></a>
+            <a href="#" class="fab fa-youtube"></a>
             </div> <!-- End Social Topnav -->
 
             <ul class="top-nav-quicklink flexContain">
-                <li><a href="index.html"><i class="fa fa-home"></i> Trang chủ</a></li>
-                <li><a href="tintuc.html"><i class="fa fa-newspaper-o"></i> Tin tức</a></li>
-                <li><a href="tuyendung.html"><i class="fa fa-handshake-o"></i> Tuyển dụng</a></li>
-                <li><a href="gioithieu.html"><i class="fa fa-info-circle"></i> Giới thiệu</a></li>
-                <li><a href="trungtambaohanh.html"><i class="fa fa-wrench"></i> Bảo hành</a></li>
-                <li><a href="lienhe.html"><i class="fa fa-phone"></i> Liên hệ</a></li>
+            <li><a href="index.html"><i class="fas fa-home"></i> Trang chủ</a></li>
+            <li><a href="tintuc.html"><i class="far fa-newspaper"></i> Tin tức</a></li>
+            <li><a href="tuyendung.html"><i class="fas fa-handshake"></i> Tuyển dụng</a></li>
+            <li><a href="gioithieu.html"><i class="fas fa-info-circle"></i> Giới thiệu</a></li>
+            <li><a href="trungtambaohanh.html"><i class="fas fa-wrench"></i> Bảo hành</a></li>
+            <li><a href="lienhe.html"><i class="fas fa-phone"></i> Liên hệ</a></li>
             </ul> <!-- End Quick link -->
         </section><!-- End Section -->
     </div><!-- End Top Nav  -->`);
@@ -545,7 +545,7 @@ function addHeader() {
 	<div class="header group">
         <div class="logo">
             <a href="index.html">
-                <img src="img/logo.jpg" alt="Trang chủ Smartphone Store" title="Trang chủ Smartphone Store">
+                <img src="img/logo.png" alt="Trang chủ Smartphone Store" title="Trang chủ Smartphone Store">
             </a>
         </div> <!-- End Logo -->
 
@@ -555,7 +555,7 @@ function addHeader() {
                     <div class="autocomplete">
                         <input id="search-box" name="search" autocomplete="off" type="text" placeholder="Nhập từ khóa tìm kiếm...">
                         <button type="submit">
-                            <i class="fa fa-search"></i>
+                            <i class="fas fa-search"></i>
                             Tìm kiếm
                         </button>
                     </div>
@@ -657,22 +657,27 @@ function addContainTaiKhoan() {
 
                         <div class="field-wrap">
                             <label>
+                            <i class="fas fa-user"></i>
                                 Tên đăng nhập<span class="req">*</span>
+                                
                             </label>
                             <input name='username' type="text" required autocomplete="off" />
                         </div> <!-- /user name -->
-
                         <div class="field-wrap">
                             <label>
+                            <i class="fas fa-lock"></i>
                                 Mật khẩu<span class="req">*</span>
+                                
                             </label>
+                            
                             <input name="pass" type="password" required autocomplete="off" />
+                            
                         </div> <!-- pass -->
 
-                        <p class="forgot"><a href="./index2.html">Quên mật khẩu?</a></p>
+                        
 
-                        <button type="submit" class="button button-block" />Tiếp tục</button>
-
+                        <button type="submit" class="button button-block" />Đăng Nhập</button>
+                        <p class="qmk"><a href="./index2.html">Quên mật khẩu?</a></p>
                     </form> <!-- /form -->
 
                 </div> <!-- /log in -->
@@ -685,6 +690,7 @@ function addContainTaiKhoan() {
                         <div class="top-row">
                             <div class="field-wrap">
                                 <label>
+                                <i class="fas fa-user"></i>
                                     Họ<span class="req">*</span>
                                 </label>
                                 <input name="ho" type="text" required autocomplete="off" />
@@ -692,6 +698,7 @@ function addContainTaiKhoan() {
 
                             <div class="field-wrap">
                                 <label>
+                                <i class="fas fa-user"></i>
                                     Tên<span class="req">*</span>
                                 </label>
                                 <input name="ten" type="text" required autocomplete="off" />
@@ -700,6 +707,7 @@ function addContainTaiKhoan() {
 
                         <div class="field-wrap">
                             <label>
+                            <i class="fas fa-envelope"></i>
                                 Địa chỉ Email<span class="req">*</span>
                             </label>
                             <input name="email" type="email" required autocomplete="off" />
@@ -707,13 +715,16 @@ function addContainTaiKhoan() {
 
                         <div class="field-wrap">
                             <label>
+                            <i class="fas fa-user"></i>
                                 Tên đăng nhập<span class="req">*</span>
+                              
                             </label>
                             <input name="newUser" type="text" required autocomplete="off" />
                         </div> <!-- /user name -->
 
                         <div class="field-wrap">
                             <label>
+                            <i class="fas fa-lock"></i>
                                 Mật khẩu<span class="req">*</span>
                             </label>
                             <input name="newPass" type="password" required autocomplete="off" />

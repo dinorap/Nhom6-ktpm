@@ -8,11 +8,11 @@ window.onload = function () {
 		var linkimg = "img/banners/banner" + i + ".png";
 		addBanner(linkimg, linkimg);
 	}
-
+	//var owl = $('.owl-carousel');: Đoạn mã này chọn tất cả các phần tử có lớp CSS .owl-carousel và lưu chúng vào biến owl. Điều này giả định rằng bạn đã định nghĩa một hoặc nhiều phần tử HTML với lớp .owl-carousel để chúng trở thành carousel. owl.owlCarousel(): Đoạn mã này khởi tạo Owl Carousel trên các phần tử đã chọn ở bước trước. Các tùy chọn cho Owl Carousel: items: 1.5: Số lượng mục hiển thị trong mỗi lần trượt. Giá trị 1.5 có thể không hợp lý, vì thường bạn nên sử dụng giá trị nguyên, ví dụ: items: 1 hoặc items: 2. margin: 100: Khoảng cách giữa các mục (ít nhất là margin px) trong carousel. center: true: Hiển thị mục chính giữa ở giữa carousel. loop: true: Cho phép vòng lặp vô hạn của carousel, nghĩa là sau khi bạn đã duyệt qua tất cả các mục, nó sẽ quay lại mục đầu tiên. smartSpeed: 450: Tốc độ trượt mục, được đo bằng mili giây. autoplay: true: Tự động chuyển đổi giữa các mục trong carousel. autoplayTimeout: 3500: Thời gian trễ giữa các lần tự động chuyển đổi (được đo bằng mili giây).
 	// Khởi động thư viện hỗ trợ banner - chỉ chạy khi đã tạo hình trong banner
 	var owl = $('.owl-carousel');
 	owl.owlCarousel({
-		items: 1.5,
+		items: 1.8,
 		margin: 100,
 		center: true,
 		loop: true,
@@ -33,6 +33,7 @@ window.onload = function () {
 		"Realme.png", "Vivo.jpg", "Philips.jpg", "Mobell.jpg", "Mobiistar.jpg", "Itel.jpg",
 		"Coolpad.png", "HTC.jpg", "Motorola.jpg"
 	];
+	//Thêm hình ảnh và tên hãng c.slice(0, c.length - 4) bỏ 4 ký tự cuối 
 	for (var c of company) addCompany("img/company/" + c, c.slice(0, c.length - 4));
 
 	// Thêm sản phẩm vào trang
@@ -41,7 +42,9 @@ window.onload = function () {
 
 	var filters = getFilterFromURL();
 	if (filters.length) { // có filter
+		//phân tích url để tìm kiếm sản phẩm
 		sanPhamPhanTich = phanTich_URL(filters, true);
+		//tính toán số sản phẩm để tạo ra số trang phù hợp Nếu không có trang nào được xác định trong URL thì số trang mặc định là 1
 		sanPhamPhanTrang = tinhToanPhanTrang(sanPhamPhanTich, filtersFromUrl.page || 1);
 		if (!sanPhamPhanTrang.length) alertNotHaveProduct(false);
 		else addProductsFrom(sanPhamPhanTrang);
@@ -114,22 +117,21 @@ var filtersFromUrl = { // Các bộ lọc tìm được trên url sẽ đc lưu 
 		type: 'ascending'
 	}
 }
-
+//Ví dụ, nếu URL của trang web là "http://example.com/?filter=category&sort=price", 
+//thì hàm getFilterFromURL sẽ trả về mảng ["filter=category", "sort=price"], chứa các bộ lọc hoặc tham số truy vấn từ URL này.
 function getFilterFromURL() { // tách và trả về mảng bộ lọc trên url
 	var fullLocation = window.location.href;
 	fullLocation = decodeURIComponent(fullLocation);
 	var dauHoi = fullLocation.split('?'); // tách theo dấu ?
 
 	if (dauHoi[1]) {
-		var dauVa = dauHoi[1].split('&');
+		var dauVa = dauHoi[1].split('&');// tách theo dấu &
 		return dauVa;
 	}
-
 	return [];
 }
 
 function phanTich_URL(filters, saveFilter) {
-	// var filters = getFilterFromURL();
 	var result = copyObject(list_products);
 
 	for (var i = 0; i < filters.length; i++) {
@@ -207,7 +209,7 @@ function phanTich_URL(filters, saveFilter) {
 
 				if (s[1] == 'decrease') {
 					if (saveFilter) filtersFromUrl.sort.type = 'decrease';
-					result.reverse();
+					result.reverse();// đảo ngược mảng 
 				}
 
 				break;

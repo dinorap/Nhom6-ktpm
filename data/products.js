@@ -1147,4 +1147,27 @@ var list_products = [{
         "battery": "3340 mAh"
     },
     "masp": "Hua3"
+},{
+    "name": "Iphone 14 pro max",
+    "company": "Iphone",
+    "img": "New/iphone-14-pro-max-tim-thumb-600x600.jpg",
+    "price": "4.490.000",
+    "star": 4,
+    "rateCount": 804,
+    "promo": {
+        "name": "giareonline",
+        "value": "3.990.000"
+    },
+    "detail": {
+        "screen": "IPS LCD, 5.9', Full HD+",
+        "os": "Android 7.0 (Nougat)",
+        "camara": "16 MP và 2 MP (2 camera)",
+        "camaraFront": "13 MP và 2 MP (2 camera)",
+        "cpu": "HiSilicon Kirin 659 8 nhân",
+        "ram": "4 GB",
+        "rom": "64 GB",
+        "microUSB": "MicroSD, hỗ trợ tối đa 128 GB",
+        "battery": "3340 mAh"
+    },
+    "masp": "App7"
 }]

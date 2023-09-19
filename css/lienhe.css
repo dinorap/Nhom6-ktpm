@@ -8,7 +8,9 @@
 	font-weight: bold;
 	line-height: 40px;
 	padding-left: 10px;
-	background: pink;
+	background: rgb(1, 247, 255);
+	font-size: 20px;
+	text-align: center;
 }
 .lienhe-info{
 	margin: 20px auto 0; 
@@ -45,17 +47,17 @@ table button{
 	padding: 5px;
 	cursor: pointer;
 	background: #FFF;
-	border: 1px solid #0C9;
+	border: 1px solid rgb(1, 247, 255);
 }
 table button:hover{
-	background: #0C9;
+	background: rgb(1, 247, 255);
 }
 .thongtinnhom table{
 	border-collapse: collapse;
 	margin-top: 20px;
 }
 .thongtinnhom table td,th{
-	border: 1px solid #0C9;	
+	border: 1px solid rgb(1, 247, 255);	
 	height: 30px;
 	padding: 3px;
 	text-align: center;

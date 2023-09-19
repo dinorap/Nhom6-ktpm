@@ -22,19 +22,19 @@
   height: 1em;
   line-height: 1em;
   text-align: center;
-  color: #aaa;
+  color: #ffffff;
   cursor: pointer;
   transition: .2s ease;
 }
 
 .containTaikhoan .close:hover {
-  color: #fff;
+  color: #000000;
   background-color: #f33;
   border-radius: 50%;
 }
 
 .taikhoan {
-  background: rgba(19, 35, 47, 0.9);
+  background: rgba(255, 255, 255, 0.9);
   padding: 40px;
   max-width: 600px;
   margin: 30px auto;
@@ -51,12 +51,13 @@
 
 .taikhoan a {
   text-decoration: none;
-  color: #1ab188;
+  color: #000000;
   transition: .5s ease;
+  font-size: 18px;
 }
 
 .taikhoan a:hover {
-  color: #179b77;
+  color: #00ce81;
 }
 
 .tab-group {
@@ -77,8 +78,8 @@
   /* nút Đăng nhập - Đăng kí */
   display: block;
   padding: 15px;
-  background: rgba(160, 179, 176, 0.25);
-  color: #a0b3b0;
+  background: rgba(116, 121, 120, 0.25);
+  color: #000000;
   font-size: 20px;
   float: left;
   width: 50%;
@@ -93,7 +94,7 @@
 }
 
 .tab-group .active a {
-  background: #1ab188;
+  background: #00ce81;
   color: #ffffff;
 }
 
@@ -108,7 +109,7 @@
 
 .taikhoan h1 {
   text-align: center;
-  color: #ffffff;
+  color: #000000;
   font-weight: 300;
   margin: 0 0 40px;
 }
@@ -118,11 +119,10 @@
   -webkit-transform: translateY(6px);
   transform: translateY(6px);
   left: 13px;
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(0, 0, 0, 0.5);
   transition: all 0.25s ease;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  /* https://www.w3schools.com/cssref/playit.asp?filename=playcss_backface-visibility */
   pointer-events: none;
   /* kiến label không thể ấn => ấn vào input sẽ ko bị vướng label */
   font-size: 22px;
@@ -131,7 +131,7 @@
 .taikhoan label .req {
   /* dấu sao * */
   margin: 2px;
-  color: #1ab188;
+  color: #ff0000;
 }
 
 .taikhoan label.active {
@@ -149,7 +149,7 @@
 
 .taikhoan label.highlight {
   /* đổi màu label đc dịch lên */
-  color: #ffffff;
+  color: #000000;
 }
 
 .taikhoan input,
@@ -162,8 +162,8 @@
   background: none;
   background-image: none;
   border: 1px solid #a0b3b0;
-  color: #ffffff;
-  border-radius: 0;
+  color: #000000;
+  border-radius: 7px;
   transition: border-color .25s ease, box-shadow .25s ease;
 }
 
@@ -176,11 +176,13 @@
 .taikhoan textarea {
   border: 2px solid #a0b3b0;
   resize: vertical;
+  
 }
 
 .field-wrap {
   position: relative;
   margin-bottom: 40px;
+ 
 }
 
 .top-row:after {
@@ -210,11 +212,12 @@
   text-transform: uppercase;
   letter-spacing: .1em;
   /* khoảng cách giữa các kí tự */
-  background: #1ab188;
+  background: #00ce81;
   color: #ffffff;
   transition: all 0.5s ease;
-  -webkit-appearance: none;
+  appearance: none;
   cursor: pointer;
+  border-radius: 7px;
 }
 
 .taikhoan .button:hover,
@@ -231,3 +234,15 @@
   margin-top: -20px;
   text-align: right;
 }
+.qmk {
+  margin-top: 20px;
+  margin-bottom: -20px;
+  display: flex;
+  justify-content: center; /* căn giữa theo chiều ngang */
+  align-items: center;
+  
+}
+i{
+ margin-right: 10px;
+}
+  

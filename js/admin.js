@@ -275,7 +275,7 @@ function layThongTinSanPhamTuTable(id) {
         return {
             "name": name,
             "company": company,
-            "img": previewSrc,
+            "img": img,
             "price": numToString(Number.parseInt(price, 10)),
             "star": Number.parseInt(star, 10),
             "rateCount": Number.parseInt(rateCount, 10),
@@ -364,12 +364,12 @@ function suaSanPham(masp) {
     if(!sp) return;
     
     for(var p of list_products) {
-        if(p.masp == masp && p.masp != sp.masp) {
+        if(p.masp == masp && p.masp == sp.masp) {
             alert('Mã sản phẩm bị trùng !!');
             return false;
         }
 
-        if(p.name == sp.name && p.masp != sp.masp) {
+        if(p.name == sp.name && p.masp == sp.masp) {
             alert('Tên sản phẩm bị trùng !!');
             return false;
         }
