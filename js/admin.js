@@ -25,7 +25,7 @@ function logOutAdmin() {
 
 function getListRandomColor(length) {
     let result = [];
-    for(let i = length; i--;) {
+    for (let i = length; i--;) {
         result.push(getRandomColor());
     }
     return result;
@@ -38,10 +38,10 @@ function addChart(id, chartOption) {
 
 function createChartConfig(
     title = 'Title',
-    charType = 'bar', 
-    labels = ['nothing'], 
-    data = [2], 
-    colors = ['red'], 
+    charType = 'bar',
+    labels = ['nothing'],
+    data = [2],
+    colors = ['red'],
 ) {
     return {
         type: charType,
@@ -65,7 +65,7 @@ function createChartConfig(
             scales: {
                 yAxes: [{
                     ticks: {
-                        beginAtZero:true
+                        beginAtZero: true
                     }
                 }]
             }
@@ -80,7 +80,7 @@ function addThongKe() {
 
     danhSachDonHang.forEach(donHang => {
         // Nếu đơn hàng bị huỷ thì không tính vào số lượng bán ra
-        if(donHang.tinhTrang === 'Đã hủy') return;
+        if (donHang.tinhTrang === 'Đã hủy') return;
 
         // Lặp qua từng sản phẩm trong đơn hàng
         donHang.sp.forEach(sanPhamTrongDonHang => {
@@ -89,7 +89,7 @@ function addThongKe() {
             let donGia = stringToNum(sanPhamTrongDonHang.sanPham.price);
             let thanhTien = soLuong * donGia;
 
-            if(!thongKeHang[tenHang]) {
+            if (!thongKeHang[tenHang]) {
                 thongKeHang[tenHang] = {
                     soLuongBanRa: 0,
                     doanhThu: 0,
@@ -108,17 +108,17 @@ function addThongKe() {
     // Thêm thống kê
     addChart('myChart1', createChartConfig(
         'Số lượng bán ra',
-        'bar', 
-        Object.keys(thongKeHang), 
-        Object.values(thongKeHang).map(_ =>  _.soLuongBanRa),
+        'bar',
+        Object.keys(thongKeHang),
+        Object.values(thongKeHang).map(_ => _.soLuongBanRa),
         colors,
     ));
 
     addChart('myChart2', createChartConfig(
         'Doanh thu',
-        'doughnut', 
-        Object.keys(thongKeHang), 
-        Object.values(thongKeHang).map(_ =>  _.doanhThu),
+        'doughnut',
+        Object.keys(thongKeHang),
+        Object.values(thongKeHang).map(_ => _.doanhThu),
         colors,
     ));
 
@@ -139,9 +139,9 @@ function addThongKe() {
 function addEventChangeTab() {
     var sidebar = document.getElementsByClassName('sidebar')[0];
     var list_a = sidebar.getElementsByTagName('a');
-    for(var a of list_a) {
-        if(!a.onclick) {
-            a.addEventListener('click', function() {
+    for (var a of list_a) {
+        if (!a.onclick) {
+            a.addEventListener('click', function () {
                 turnOff_Active();
                 this.classList.add('active');
                 var tab = this.childNodes[1].data.trim()
@@ -154,7 +154,7 @@ function addEventChangeTab() {
 function turnOff_Active() {
     var sidebar = document.getElementsByClassName('sidebar')[0];
     var list_a = sidebar.getElementsByTagName('a');
-    for(var a of list_a) {
+    for (var a of list_a) {
         a.classList.remove('active');
     }
 }
@@ -162,12 +162,12 @@ function turnOff_Active() {
 function openTab(nameTab) {
     // ẩn hết
     var main = document.getElementsByClassName('main')[0].children;
-    for(var e of main) {
+    for (var e of main) {
         e.style.display = 'none';
     }
 
     // mở tab
-    switch(nameTab) {
+    switch (nameTab) {
         case 'Trang Chủ': document.getElementsByClassName('home')[0].style.display = 'block'; break;
         case 'Sản Phẩm': document.getElementsByClassName('sanpham')[0].style.display = 'block'; break;
         case 'Đơn Hàng': document.getElementsByClassName('donhang')[0].style.display = 'block'; break;
@@ -184,7 +184,7 @@ function addTableProducts() {
     for (var i = 0; i < list_products.length; i++) {
         var p = list_products[i];
         s += `<tr>
-            <td style="width: 5%">` + (i+1) + `</td>
+            <td style="width: 5%">` + (i + 1) + `</td>
             <td style="width: 10%">` + p.masp + `</td>
             <td style="width: 40%">
                 <a title="Xem chi tiết" target="_blank" href="chitietsanpham.html?` + p.name.split(' ').join('-') + `">` + p.name + `</a>
@@ -198,7 +198,7 @@ function addTableProducts() {
                     <span class="tooltiptext">Sửa</span>
                 </div>
                 <div class="tooltip">
-                    <i class="fa fa-trash" onclick="xoaSanPham('` + p.masp + `', '`+p.name+`')"></i>
+                    <i class="fa fa-trash" onclick="xoaSanPham('` + p.masp + `', '` + p.name + `')"></i>
                     <span class="tooltiptext">Xóa</span>
                 </div>
             </td>
@@ -216,7 +216,7 @@ function timKiemSanPham(inp) {
     var text = inp.value;
 
     // Lọc
-    var vitriKieuTim = {'ma':1, 'ten':2}; // mảng lưu vị trí cột
+    var vitriKieuTim = { 'ma': 1, 'ten': 2 }; // mảng lưu vị trí cột
 
     var listTr_table = document.getElementsByClassName('sanpham')[0].getElementsByClassName('table-content')[0].getElementsByTagName('tr');
     for (var tr of listTr_table) {
@@ -256,17 +256,17 @@ function layThongTinSanPhamTuTable(id) {
     var microUSB = tr[18].getElementsByTagName('td')[1].getElementsByTagName('input')[0].value;
     var battery = tr[19].getElementsByTagName('td')[1].getElementsByTagName('input')[0].value;
 
-    if(isNaN(price)) {
+    if (isNaN(price)) {
         alert('Giá phải là số nguyên');
         return false;
     }
 
-    if(isNaN(star)) {
+    if (isNaN(star)) {
         alert('Số sao phải là số nguyên');
         return false;
     }
 
-    if(isNaN(rateCount)) {
+    if (isNaN(rateCount)) {
         alert('Số đánh giá phải là số nguyên');
         return false;
     }
@@ -294,43 +294,43 @@ function layThongTinSanPhamTuTable(id) {
                 "microUSB": microUSB,
                 "battery": battery
             },
-            "masp" : masp
+            "masp": masp
         }
-    } catch(e) {
+    } catch (e) {
         alert('Lỗi: ' + e.toString());
         return false;
     }
 }
 function themSanPham() {
     var newSp = layThongTinSanPhamTuTable('khungThemSanPham');
-    if(!newSp) return;
+    if (!newSp) return;
 
-    for(var p of list_products) {
-        if(p.masp == newSp.masp) {
+    for (var p of list_products) {
+        if (p.masp == newSp.masp) {
             alert('Mã sản phẩm bị trùng !!');
             return false;
         }
 
-        if(p.name == newSp.name) {
+        if (p.name == newSp.name) {
             alert('Tên sản phẩm bị trùng !!');
             return false;
         }
     }
-     // Them san pham vao list_products
-     list_products.push(newSp);
+    // Them san pham vao list_products
+    list_products.push(newSp);
 
-     // Lưu vào localstorage
-     setListProducts(list_products);
- 
-     // Vẽ lại table
-     addTableProducts();
+    // Lưu vào localstorage
+    setListProducts(list_products);
+
+    // Vẽ lại table
+    addTableProducts();
 
     alert('Thêm sản phẩm "' + newSp.name + '" thành công.');
     document.getElementById('khungThemSanPham').style.transform = 'scale(0)';
 }
 function autoMaSanPham(company) {
     // hàm tự tạo mã cho sản phẩm mới
-    if(!company) company = document.getElementsByName('chonCompany')[0].value;
+    if (!company) company = document.getElementsByName('chonCompany')[0].value;
     var index = 0;
     for (var i = 0; i < list_products.length; i++) {
         if (list_products[i].company == company) {
@@ -344,8 +344,8 @@ function autoMaSanPham(company) {
 function xoaSanPham(masp, tensp) {
     if (window.confirm('Bạn có chắc muốn xóa ' + tensp)) {
         // Xóa
-        for(var i = 0; i < list_products.length; i++) {
-            if(list_products[i].masp == masp) {
+        for (var i = 0; i < list_products.length; i++) {
+            if (list_products[i].masp == masp) {
                 list_products.splice(i, 1);
             }
         }
@@ -359,24 +359,23 @@ function xoaSanPham(masp, tensp) {
 }
 
 // Sửa
-function suaSanPham(masp) {
+function suaSanPham(masp, name) {
     var sp = layThongTinSanPhamTuTable('khungSuaSanPham');
-    if(!sp) return;
-    
-    for(var p of list_products) {
-        if(p.masp == masp && p.masp == sp.masp) {
+    if (!sp) return;
+    for (var p of list_products) {
+        if (sp.masp != masp && p.masp == sp.masp) {
             alert('Mã sản phẩm bị trùng !!');
             return false;
         }
 
-        if(p.name == sp.name && p.masp == sp.masp) {
+        if (sp.name != name && p.name == sp.name) {
             alert('Tên sản phẩm bị trùng !!');
             return false;
         }
     }
     // Sửa
-    for(var i = 0; i < list_products.length; i++) {
-        if(list_products[i].masp == masp) {
+    for (var i = 0; i < list_products.length; i++) {
+        if (list_products[i].masp == masp) {
             list_products[i] = sp;
         }
     }
@@ -394,8 +393,8 @@ function suaSanPham(masp) {
 
 function addKhungSuaSanPham(masp) {
     var sp;
-    for(var p of list_products) {
-        if(p.masp == masp) {
+    for (var p of list_products) {
+        if (p.masp == masp) {
             sp = p;
         }
     }
@@ -403,26 +402,26 @@ function addKhungSuaSanPham(masp) {
     var s = `<span class="close" onclick="this.parentElement.style.transform = 'scale(0)';">&times;</span>
     <table class="overlayTable table-outline table-content table-header">
         <tr>
-            <th colspan="2">`+sp.name+`</th>
+            <th colspan="2">`+ sp.name + `</th>
         </tr>
         <tr>
             <td>Mã sản phẩm:</td>
-            <td><input type="text" value="`+sp.masp+`"></td>
+            <td><input type="text" value="`+ sp.masp + `"></td>
         </tr>
         <tr>
             <td>Tên sẩn phẩm:</td>
-            <td><input type="text" value="`+sp.name+`"></td>
+            <td><input type="text" value="`+ sp.name + `"></td>
         </tr>
         <tr>
             <td>Hãng:</td>
             <td>
                 <select>`
-                    
-    var company = ["Apple", "Samsung", "Oppo", "Nokia", "Huawei", "Xiaomi","Realme", "Vivo", "Philips", "Mobell", "Mobiistar", "Itel","Coolpad", "HTC", "Motorola"];
-    for(var c of company) {
-        if(sp.company == c)
-            s += (`<option value="`+c+`" selected>`+c+`</option>`);
-        else s += (`<option value="`+c+`">`+c+`</option>`);
+
+    var company = ["Apple", "Samsung", "Oppo", "Nokia", "Huawei", "Xiaomi", "Realme", "Vivo", "Philips", "Mobell", "Mobiistar", "Itel", "Coolpad", "HTC", "Motorola"];
+    for (var c of company) {
+        if (sp.company == c)
+            s += (`<option value="` + c + `" selected>` + c + `</option>`);
+        else s += (`<option value="` + c + `">` + c + `</option>`);
     }
 
     s += `
@@ -432,79 +431,79 @@ function addKhungSuaSanPham(masp) {
         <tr>
             <td>Hình:</td>
             <td>
-                <img class="hinhDaiDien" id="anhDaiDienSanPhamSua" src="`+sp.img+`">
+                <img class="hinhDaiDien" id="anhDaiDienSanPhamSua" src="`+ sp.img + `">
                 <input type="file" accept="image/*" onchange="capNhatAnhSanPham(this.files, 'anhDaiDienSanPhamSua')">
             </td>
         </tr>
         <tr>
             <td>Giá tiền (số nguyên):</td>
-            <td><input type="text" value="`+stringToNum(sp.price)+`"></td>
+            <td><input type="text" value="`+ stringToNum(sp.price) + `"></td>
         </tr>
         <tr>
             <td>Số sao (số nguyên 0->5):</td>
-            <td><input type="text" value="`+sp.star+`"></td>
+            <td><input type="text" value="`+ sp.star + `"></td>
         </tr>
         <tr>
             <td>Đánh giá (số nguyên):</td>
-            <td><input type="text" value="`+sp.rateCount+`"></td>
+            <td><input type="text" value="`+ sp.rateCount + `"></td>
         </tr>
         <tr>
             <td>Khuyến mãi:</td>
             <td>
                 <select>
                     <option value="">Không</option>
-                    <option value="tragop" `+(sp.promo.name == 'tragop'?'selected':'')+`>Trả góp</option>
-                    <option value="giamgia" `+(sp.promo.name == 'giamgia'?'selected':'')+`>Giảm giá</option>
-                    <option value="giareonline" `+(sp.promo.name == 'giareonline'?'selected':'')+`>Giá rẻ online</option>
-                    <option value="moiramat" `+(sp.promo.name == 'moiramat'?'selected':'')+`>Mới ra mắt</option>
+                    <option value="tragop" `+ (sp.promo.name == 'tragop' ? 'selected' : '') + `>Trả góp</option>
+                    <option value="giamgia" `+ (sp.promo.name == 'giamgia' ? 'selected' : '') + `>Giảm giá</option>
+                    <option value="giareonline" `+ (sp.promo.name == 'giareonline' ? 'selected' : '') + `>Giá rẻ online</option>
+                    <option value="moiramat" `+ (sp.promo.name == 'moiramat' ? 'selected' : '') + `>Mới ra mắt</option>
                 </select>
             </td>
         </tr>
         <tr>
             <td>Giá trị khuyến mãi:</td>
-            <td><input type="text" value="`+sp.promo.value+`"></td>
+            <td><input type="text" value="`+ sp.promo.value + `"></td>
         </tr>
         <tr>
             <th colspan="2">Thông số kĩ thuật</th>
         </tr>
         <tr>
             <td>Màn hình:</td>
-            <td><input type="text" value="`+sp.detail.screen+`"></td>
+            <td><input type="text" value="`+ sp.detail.screen + `"></td>
         </tr>
         <tr>
             <td>Hệ điều hành:</td>
-            <td><input type="text" value="`+sp.detail.os+`"></td>
+            <td><input type="text" value="`+ sp.detail.os + `"></td>
         </tr>
         <tr>
             <td>Camara sau:</td>
-            <td><input type="text" value="`+sp.detail.camara+`"></td>
+            <td><input type="text" value="`+ sp.detail.camara + `"></td>
         </tr>
         <tr>
             <td>Camara trước:</td>
-            <td><input type="text" value="`+sp.detail.camaraFront+`"></td>
+            <td><input type="text" value="`+ sp.detail.camaraFront + `"></td>
         </tr>
         <tr>
             <td>CPU:</td>
-            <td><input type="text" value="`+sp.detail.cpu+`"></td>
+            <td><input type="text" value="`+ sp.detail.cpu + `"></td>
         </tr>
         <tr>
             <td>RAM:</td>
-            <td><input type="text" value="`+sp.detail.ram+`"></td>
+            <td><input type="text" value="`+ sp.detail.ram + `"></td>
         </tr>
         <tr>
             <td>Bộ nhớ trong:</td>
-            <td><input type="text" value="`+sp.detail.rom+`"></td>
+            <td><input type="text" value="`+ sp.detail.rom + `"></td>
         </tr>
         <tr>
             <td>Thẻ nhớ:</td>
-            <td><input type="text" value="`+sp.detail.microUSB+`"></td>
+            <td><input type="text" value="`+ sp.detail.microUSB + `"></td>
         </tr>
         <tr>
             <td>Dung lượng Pin:</td>
-            <td><input type="text" value="`+sp.detail.battery+`"></td>
+            <td><input type="text" value="`+ sp.detail.battery + `"></td>
         </tr>
         <tr>
-            <td colspan="2"  class="table-footer"> <button onclick="suaSanPham('`+sp.masp+`')">SỬA</button> </td>
+            <td colspan="2"  class="table-footer"> <button onclick="suaSanPham('`+ sp.masp + `','` + sp.name + `')">SỬA</button> </td>
         </tr>
     </table>`
     var khung = document.getElementById('khungSuaSanPham');
@@ -516,7 +515,7 @@ function addKhungSuaSanPham(masp) {
 function capNhatAnhSanPham(files, id) {
     // var url = '';
     // if(files.length) url = window.URL.createObjectURL(files[0]);
-    
+
     // document.getElementById(id).src = url;
 
     const reader = new FileReader();
@@ -529,26 +528,26 @@ function capNhatAnhSanPham(files, id) {
     if (files[0]) {
         reader.readAsDataURL(files[0]);
     }
-} 
+}
 
 // Sắp Xếp sản phẩm
 function sortProductsTable(loai) {
     var list = document.getElementsByClassName('sanpham')[0].getElementsByClassName("table-content")[0];
     var tr = list.getElementsByTagName('tr');
 
-    quickSort(tr, 0, tr.length-1, loai, getValueOfTypeInTable_SanPham); // type cho phép lựa chọn sort theo mã hoặc tên hoặc giá ... 
+    quickSort(tr, 0, tr.length - 1, loai, getValueOfTypeInTable_SanPham); // type cho phép lựa chọn sort theo mã hoặc tên hoặc giá ... 
     decrease = !decrease;
 }
 
 // Lấy giá trị của loại(cột) dữ liệu nào đó trong bảng
 function getValueOfTypeInTable_SanPham(tr, loai) {
     var td = tr.getElementsByTagName('td');
-    switch(loai) {
-        case 'stt' : return Number(td[0].innerHTML);
-        case 'masp' : return td[1].innerHTML.toLowerCase();
-        case 'ten' : return td[2].innerHTML.toLowerCase();
-        case 'gia' : return stringToNum(td[3].innerHTML);
-        case 'khuyenmai' : return td[4].innerHTML.toLowerCase();
+    switch (loai) {
+        case 'stt': return Number(td[0].innerHTML);
+        case 'masp': return td[1].innerHTML.toLowerCase();
+        case 'ten': return td[2].innerHTML.toLowerCase();
+        case 'gia': return stringToNum(td[3].innerHTML);
+        case 'khuyenmai': return td[4].innerHTML.toLowerCase();
     }
     return false;
 }
@@ -565,7 +564,7 @@ function addTableDonHang() {
     for (var i = 0; i < listDH.length; i++) {
         var d = listDH[i];
         s += `<tr>
-            <td style="width: 5%">` + (i+1) + `</td>
+            <td style="width: 5%">` + (i + 1) + `</td>
             <td style="width: 13%">` + d.ma + `</td>
             <td style="width: 7%">` + d.khach + `</td>
             <td style="width: 20%">` + d.sp + `</td>
@@ -574,11 +573,11 @@ function addTableDonHang() {
             <td style="width: 10%">` + d.tinhTrang + `</td>
             <td style="width: 10%">
                 <div class="tooltip">
-                    <i class="fa fa-check" onclick="duyet('`+d.ma+`', true)"></i>
+                    <i class="fa fa-check" onclick="duyet('`+ d.ma + `', true)"></i>
                     <span class="tooltiptext">Duyệt</span>
                 </div>
                 <div class="tooltip">
-                    <i class="fa fa-remove" onclick="duyet('`+d.ma+`', false)"></i>
+                    <i class="fa fa-remove" onclick="duyet('`+ d.ma + `', false)"></i>
                     <span class="tooltiptext">Hủy</span>
                 </div>
                 
@@ -594,13 +593,13 @@ function addTableDonHang() {
 function getListDonHang(traVeDanhSachSanPham = false) {
     var u = getListUser();
     var result = [];
-    for(var i = 0; i < u.length; i++) {
-        for(var j = 0; j < u[i].donhang.length; j++) {
+    for (var i = 0; i < u.length; i++) {
+        for (var j = 0; j < u[i].donhang.length; j++) {
             // Tổng tiền
             var tongtien = 0;
-            for(var s of u[i].donhang[j].sp) {
+            for (var s of u[i].donhang[j].sp) {
                 var timsp = timKiemTheoMa(list_products, s.ma);
-                if(timsp.promo.name == 'giareonline') tongtien += stringToNum(timsp.promo.value);
+                if (timsp.promo.name == 'giareonline') tongtien += stringToNum(timsp.promo.value);
                 else tongtien += stringToNum(timsp.price);
             }
 
@@ -609,13 +608,13 @@ function getListDonHang(traVeDanhSachSanPham = false) {
 
             // Các sản phẩm - dạng html
             var sps = '';
-            for(var s of u[i].donhang[j].sp) {
-                sps += `<p style="text-align: right">`+(timKiemTheoMa(list_products, s.ma).name + ' [' + s.soluong + ']') + `</p>`;
+            for (var s of u[i].donhang[j].sp) {
+                sps += `<p style="text-align: right">` + (timKiemTheoMa(list_products, s.ma).name + ' [' + s.soluong + ']') + `</p>`;
             }
 
             // Các sản phẩm - dạng mảng
             var danhSachSanPham = [];
-            for(var s of u[i].donhang[j].sp) {
+            for (var s of u[i].donhang[j].sp) {
                 danhSachSanPham.push({
                     sanPham: timKiemTheoMa(list_products, s.ma),
                     soLuong: s.soluong,
@@ -639,23 +638,23 @@ function getListDonHang(traVeDanhSachSanPham = false) {
 // Duyệt
 function duyet(maDonHang, duyetDon) {
     var u = getListUser();
-    for(var i = 0; i < u.length; i++) {
-        for(var j = 0; j < u[i].donhang.length; j++) {
-            if(u[i].donhang[j].ngaymua == maDonHang) {
-                if(duyetDon) {
-                    if(u[i].donhang[j].tinhTrang == 'Đang chờ xử lý') {
+    for (var i = 0; i < u.length; i++) {
+        for (var j = 0; j < u[i].donhang.length; j++) {
+            if (u[i].donhang[j].ngaymua == maDonHang) {
+                if (duyetDon) {
+                    if (u[i].donhang[j].tinhTrang == 'Đang chờ xử lý') {
                         u[i].donhang[j].tinhTrang = 'Đã giao hàng';
-                    
-                    } else if(u[i].donhang[j].tinhTrang == 'Đã hủy') {
+
+                    } else if (u[i].donhang[j].tinhTrang == 'Đã hủy') {
                         alert('Không thể duyệt đơn đã hủy !');
                         return;
                     }
                 } else {
-                    if(u[i].donhang[j].tinhTrang == 'Đang chờ xử lý') {
-                        if(window.confirm('Bạn có chắc muốn hủy đơn hàng này. Hành động này sẽ không thể khôi phục lại !'))
+                    if (u[i].donhang[j].tinhTrang == 'Đang chờ xử lý') {
+                        if (window.confirm('Bạn có chắc muốn hủy đơn hàng này. Hành động này sẽ không thể khôi phục lại !'))
                             u[i].donhang[j].tinhTrang = 'Đã hủy';
-                    
-                    } else if(u[i].donhang[j].tinhTrang == 'Đã giao hàng') {
+
+                    } else if (u[i].donhang[j].tinhTrang == 'Đã giao hàng') {
                         alert('Không thể hủy đơn hàng đã giao !');
                         return;
                     }
@@ -694,7 +693,7 @@ function timKiemDonHang(inp) {
     var text = inp.value;
 
     // Lọc
-    var vitriKieuTim = {'ma':1, 'khachhang':2, 'trangThai':6};
+    var vitriKieuTim = { 'ma': 1, 'khachhang': 2, 'trangThai': 6 };
 
     var listTr_table = document.getElementsByClassName('donhang')[0].getElementsByClassName('table-content')[0].getElementsByTagName('tr');
     for (var tr of listTr_table) {
@@ -713,20 +712,20 @@ function sortDonHangTable(loai) {
     var list = document.getElementsByClassName('donhang')[0].getElementsByClassName("table-content")[0];
     var tr = list.getElementsByTagName('tr');
 
-    quickSort(tr, 0, tr.length-1, loai, getValueOfTypeInTable_DonHang); 
+    quickSort(tr, 0, tr.length - 1, loai, getValueOfTypeInTable_DonHang);
     decrease = !decrease;
 }
 
 // Lấy giá trị của loại(cột) dữ liệu nào đó trong bảng
 function getValueOfTypeInTable_DonHang(tr, loai) {
     var td = tr.getElementsByTagName('td');
-    switch(loai) {
+    switch (loai) {
         case 'stt': return Number(td[0].innerHTML);
-        case 'ma' : return new Date(td[1].innerHTML); // chuyển về dạng ngày để so sánh ngày
-        case 'khach' : return td[2].innerHTML.toLowerCase(); // lấy tên khách
-        case 'sanpham' : return td[3].children.length;    // lấy số lượng hàng trong đơn này, length ở đây là số lượng <p>
-        case 'tongtien' : return stringToNum(td[4].innerHTML); // trả về dạng giá tiền
-        case 'ngaygio' : return new Date(td[5].innerHTML); // chuyển về ngày
+        case 'ma': return new Date(td[1].innerHTML); // chuyển về dạng ngày để so sánh ngày
+        case 'khach': return td[2].innerHTML.toLowerCase(); // lấy tên khách
+        case 'sanpham': return td[3].children.length;    // lấy số lượng hàng trong đơn này, length ở đây là số lượng <p>
+        case 'tongtien': return stringToNum(td[4].innerHTML); // trả về dạng giá tiền
+        case 'ngaygio': return new Date(td[5].innerHTML); // chuyển về ngày
         case 'trangthai': return td[6].innerHTML.toLowerCase(); //
     }
     return false;
@@ -743,7 +742,7 @@ function addTableKhachHang() {
     for (var i = 0; i < listUser.length; i++) {
         var u = listUser[i];
         s += `<tr>
-            <td style="width: 5%">` + (i+1) + `</td>
+            <td style="width: 5%">` + (i + 1) + `</td>
             <td style="width: 15%">` + u.ho + ' ' + u.ten + `</td>
             <td style="width: 20%">` + u.email + `</td>
             <td style="width: 20%">` + u.username + `</td>
@@ -751,13 +750,13 @@ function addTableKhachHang() {
             <td style="width: 10%">
                 <div class="tooltip">
                     <label class="switch">
-                        <input type="checkbox" `+(u.off?'':'checked')+` onclick="voHieuHoaNguoiDung(this, '`+u.username+`')">
+                        <input type="checkbox" `+ (u.off ? '' : 'checked') + ` onclick="voHieuHoaNguoiDung(this, '` + u.username + `')">
                         <span class="slider round"></span>
                     </label>
-                    <span class="tooltiptext">`+(u.off?'Mở':'Khóa')+`</span>
+                    <span class="tooltiptext">`+ (u.off ? 'Mở' : 'Khóa') + `</span>
                 </div>
                 <div class="tooltip">
-                    <i class="fa fa-remove" onclick="xoaNguoiDung('`+u.username+`')"></i>
+                    <i class="fa fa-remove" onclick="xoaNguoiDung('`+ u.username + `')"></i>
                     <span class="tooltiptext">Xóa</span>
                 </div>
             </td>
@@ -774,7 +773,7 @@ function timKiemNguoiDung(inp) {
     var text = inp.value;
 
     // Lọc
-    var vitriKieuTim = {'ten':1, 'email':2, 'taikhoan':3};
+    var vitriKieuTim = { 'ten': 1, 'email': 2, 'taikhoan': 3 };
 
     var listTr_table = document.getElementsByClassName('khachhang')[0].getElementsByClassName('table-content')[0].getElementsByTagName('tr');
     for (var tr of listTr_table) {
@@ -795,26 +794,26 @@ function openThemNguoiDung() {
 // vô hiệu hóa người dùng (tạm dừng, không cho đăng nhập vào)
 function voHieuHoaNguoiDung(inp, taikhoan) {
     var listUser = getListUser();
-    for(var u of listUser) {
-        if(u.username == taikhoan) {
+    for (var u of listUser) {
+        if (u.username == taikhoan) {
             let value = !inp.checked
             u.off = value;
             setListUser(listUser);
-            
+
             setTimeout(() => alert(`${value ? 'Khoá' : 'Mở khoá'} tải khoản ${u.username} thành công.`), 500);
             break;
         }
     }
     var span = inp.parentElement.nextElementSibling;
-        span.innerHTML = (inp.checked?'Khóa':'Mở');
+    span.innerHTML = (inp.checked ? 'Khóa' : 'Mở');
 }
 
 // Xóa người dùng
 function xoaNguoiDung(taikhoan) {
-    if(window.confirm('Xác nhận xóa '+taikhoan+'? \nMọi dữ liệu về '+taikhoan+' sẽ mất! Bao gồm cả những đơn hàng của '+taikhoan)) {
+    if (window.confirm('Xác nhận xóa ' + taikhoan + '? \nMọi dữ liệu về ' + taikhoan + ' sẽ mất! Bao gồm cả những đơn hàng của ' + taikhoan)) {
         var listuser = getListUser();
-        for(var i = 0; i < listuser.length; i++) {
-            if(listuser[i].username == taikhoan) {
+        for (var i = 0; i < listuser.length; i++) {
+            if (listuser[i].username == taikhoan) {
                 listuser.splice(i, 1); // xóa
                 setListUser(listuser); // lưu thay đổi
                 localStorage.removeItem('CurrentUser'); // đăng xuất khỏi tài khoản hiện tại (current user)
@@ -831,18 +830,18 @@ function sortKhachHangTable(loai) {
     var list = document.getElementsByClassName('khachhang')[0].getElementsByClassName("table-content")[0];
     var tr = list.getElementsByTagName('tr');
 
-    quickSort(tr, 0, tr.length-1, loai, getValueOfTypeInTable_KhachHang); 
+    quickSort(tr, 0, tr.length - 1, loai, getValueOfTypeInTable_KhachHang);
     decrease = !decrease;
 }
 
 function getValueOfTypeInTable_KhachHang(tr, loai) {
     var td = tr.getElementsByTagName('td');
-    switch(loai) {
+    switch (loai) {
         case 'stt': return Number(td[0].innerHTML);
-        case 'hoten' : return td[1].innerHTML.toLowerCase();
-        case 'email' : return td[2].innerHTML.toLowerCase();
-        case 'taikhoan' : return td[3].innerHTML.toLowerCase();    
-        case 'matkhau' : return td[4].innerHTML.toLowerCase(); 
+        case 'hoten': return td[1].innerHTML.toLowerCase();
+        case 'email': return td[2].innerHTML.toLowerCase();
+        case 'taikhoan': return td[3].innerHTML.toLowerCase();
+        case 'matkhau': return td[4].innerHTML.toLowerCase();
     }
     return false;
 }
@@ -868,12 +867,12 @@ function quickSort(arr, left, right, loai, func) {
 }
 
 function partition(arr, pivot, left, right, loai, func) {
-    var pivotValue =  func(arr[pivot], loai),
+    var pivotValue = func(arr[pivot], loai),
         partitionIndex = left;
-    
+
     for (var i = left; i < right; i++) {
         if (decrease && func(arr[i], loai) > pivotValue
-        || !decrease && func(arr[i], loai) < pivotValue) {
+            || !decrease && func(arr[i], loai) < pivotValue) {
             swap(arr, i, partitionIndex);
             partitionIndex++;
         }
