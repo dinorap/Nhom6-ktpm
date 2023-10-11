@@ -11,7 +11,7 @@
 
 .companyMenu a:hover {
 	border: 2px solid #aaa;
-	transform: scale(1.1);
+	transform: scale(1.2);
 	z-index: 20;
 }
 

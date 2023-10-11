@@ -39,6 +39,7 @@
 			display: inline-block;
 			font-size: 1em;
 			color: gray;
+			margin-bottom: 1px;
 		}
 		.top-nav-quicklink li a {
 			display: block;
@@ -47,7 +48,7 @@
 			transition-duration: .15s;
 		}
 		.top-nav-quicklink li a:hover {
-			padding-top: 4px; 
+			
 			color: #000;
 			border-bottom: 4px solid rgb(1, 247, 255);
 		}
@@ -58,8 +59,11 @@
 			background-color:rgb(1, 247, 255);
 			content: "";
 			display: block;
-			height: 3px;
+			height: 4px;
 			width: 100%; 
 		  }
+		  .top-nav-quicklink li.active:hover a {
+			border-bottom: none;  /* Tắt border bottom */
+		}
 	/* ======= End quick link ======= */
 /* ======= End Top navigation ======= */

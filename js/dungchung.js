@@ -1,7 +1,7 @@
 var adminInfo = [
   {
     username: "admin",
-    pass: "adadad",
+    pass: "admin",
   },
 ];
 
@@ -239,7 +239,18 @@ function signUp(form) {
 
   // Lấy dữ liệu các khách hàng hiện có
   var listUser = getListUser();
+  if (pass.length < 8) {
+    alert("Mật khẩu tối thiểu 8 ký tự");
+    return false;
+  }
+  var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
 
+  if (!regex.test(pass)) {
+    alert(
+      "Mật khẩu phải bao gồm ít nhất một chữ cái viết hoa, một chữ cái viết thường và một số"
+    );
+    return false;
+  }
   // Kiểm tra trùng admin
   for (var ad of adminInfo) {
     if (newUser.username == ad.username) {
@@ -727,7 +738,7 @@ function addContainTaiKhoan() {
                         
 
                         <button type="submit" class="button button-block" />Đăng Nhập</button>
-                        <p class="qmk"><a href="./index2.html">Quên mật khẩu?</a></p>
+                        <p class="qmk"><a href="./quenmk.html">Quên mật khẩu?</a></p>
                     </form> <!-- /form -->
 
                 </div> <!-- /log in -->

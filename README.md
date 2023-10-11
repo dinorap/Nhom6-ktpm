@@ -21,7 +21,7 @@ Chức năng **ADMIN**:
 ## Admin Account:
 
 - username: admin
-- password: adadad
+- password: admin
 
 ## Screenshots
 

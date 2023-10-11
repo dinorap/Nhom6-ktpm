@@ -101,9 +101,9 @@ var list_products = [
     name: "Nokia black future",
     company: "Nokia",
     img: "https://cdn.tgdd.vn/Products/Images/42/22701/dien-thoai-di-dong-Nokia-1280-dienmay.com-l.jpg",
-    price: "999.999.000",
+    price: "Vô giá ",
     star: 5,
-    rateCount: 9999,
+    rateCount: 999,
     promo: {
       name: "giamgia",
       value: "1.000",
@@ -830,7 +830,7 @@ var list_products = [
     img: "https://cdn.tgdd.vn/Products/Images/42/92016/mobell-m789-8-300x300.jpg",
     price: "550.000",
     star: 4,
-    rateCount: 0,
+    rateCount: 10,
     promo: {
       name: "",
       value: "",
@@ -1119,8 +1119,8 @@ var list_products = [
     company: "Apple",
     img: "https://cdn.tgdd.vn/Products/Images/42/303891/iphone-15-plus-128gb-den-thumb-600x600.jpg",
     price: "25.990.000",
-    star: 0,
-    rateCount: 0,
+    star: 4,
+    rateCount: 100,
     promo: {
       name: "giareonline",
       value: "24.990.000",

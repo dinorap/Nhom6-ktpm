@@ -135,3 +135,90 @@
 .xoaHet:hover {
     background-color: rgb(224, 65, 65);
 }
+#checkoutModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
+
+  .infor0 {
+    width: 40%;
+    
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    /* Màu nền cho modal */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .infor1 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .butt {
+    float: right;
+
+  }
+
+  .butt .confirm {
+    color: #fff;
+    background-color: rgb(2, 218, 2);
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgb(2, 218, 2);
+  }
+
+  .butt .unconfirm {
+    background-color: red;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid red;
+    color: #fff;
+  }
+
+  .infor0 textarea {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #9b9a9a;
+    border-radius: 3px;
+  }
+
+  .form-groupa {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .form-group {
+    margin-top: 10px;
+  }
+
+
+  .infor0 .a {
+    width: calc(50% - 28px);
+  }
+
+  .infor0 input {
+    margin-top: 5px;
+    padding: 7px;
+    border-radius: 5px;
+    border: 1px solid gray;
+    width: calc(100% - 16px);
+  }
+
+  .infor0 .sele {
+    padding: 7px;
+    border-radius: 5px;
+    margin-bottom: 7px;
+    width: 32%;
+  }
