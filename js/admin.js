@@ -951,21 +951,21 @@ function addTableKhachHang() {
             <td style="width: 5%">` +
       (i + 1) +
       `</td>
-            <td style="width: 15%">` +
+            <td style="width: 17%">` +
       u.ho +
       " " +
       u.ten +
       `</td>
-            <td style="width: 20%">` +
+            <td style="width: 22%">` +
       u.email +
       `</td>
-            <td style="width: 20%">` +
+            <td style="width: 16%">` +
       u.username +
       `</td>
-            <td style="width: 10%">` +
+            <td style="width: 31%">` +
       u.pass +
       `</td>
-            <td style="width: 10%">
+            <td style="width: 9%">
                 <div class="tooltip">
                     <label class="switch">
                         <input type="checkbox" ` +

@@ -65,5 +65,9 @@
 		  .top-nav-quicklink li.active:hover a {
 			border-bottom: none;  /* Tắt border bottom */
 		}
+		.github-link:hover {
+			background-color: black; /* Đổi màu nền khi lướt qua */
+			color: white; /* Đổi màu chữ khi lướt qua */
+		  }
 	/* ======= End quick link ======= */
 /* ======= End Top navigation ======= */

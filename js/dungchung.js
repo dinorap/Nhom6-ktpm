@@ -3,6 +3,10 @@ var adminInfo = [
     username: "admin",
     pass: "admin",
   },
+  {
+    username: "minhphuong",
+    pass: "minhphuong",
+  },
 ];
 
 function getListAdmin() {
@@ -192,40 +196,43 @@ function logIn(form) {
   // Lấy dữ liệu từ form
   var name = form.username.value;
   var pass = form.pass.value;
-  var newUser = new User(name, pass);
 
-  // Lấy dữ liệu từ danh sách người dùng localstorage
-  var listUser = getListUser();
+  // Mã hóa mật khẩu đăng nhập
+  sha256(pass).then(function (hashedPass) {
+    // Lấy dữ liệu từ danh sách người dùng local storage
+    var listUser = getListUser();
 
-  // Kiểm tra xem dữ liệu form có khớp với người dùng nào trong danh sách ko
-  for (var u of listUser) {
-    if (equalUser(newUser, u)) {
-      if (u.off) {
-        alert("Tài khoản này đang bị khoá. Không thể đăng nhập.");
+    // Kiểm tra xem dữ liệu form có khớp với người dùng nào trong danh sách không
+    for (var u of listUser) {
+      if (u.username === name && u.pass === hashedPass) {
+        if (u.off) {
+          alert("Tài khoản này đang bị khoá. Không thể đăng nhập.");
+          return false;
+        }
+
+        setCurrentUser(u);
+
+        // Reload lại trang
+        location.reload();
         return false;
       }
-
-      setCurrentUser(u);
-
-      // Reload lại trang -> sau khi reload sẽ cập nhật luôn giỏ hàng khi hàm setupEventTaiKhoan chạy
-      location.reload();
-      return false;
     }
-  }
 
-  // Đăng nhập vào admin
-  for (var ad of adminInfo) {
-    if (equalUser(newUser, ad)) {
-      alert("Xin chào admin .. ");
-      window.localStorage.setItem("admin", true);
-      window.location.assign("admin.html");
-      return false;
+    // Đăng nhập vào admin (giữ nguyên phần đăng nhập bằng admin)
+    for (var ad of adminInfo) {
+      if (equalUser({ username: name, pass: pass }, ad)) {
+        alert("Xin chào admin .. ");
+        window.localStorage.setItem("admin", true);
+        window.location.assign("admin.html");
+        return false;
+      }
     }
-  }
 
-  // Trả về thông báo nếu không khớp
-  alert("Nhập sai tên hoặc mật khẩu !!!");
-  form.username.focus();
+    // Trả về thông báo nếu không khớp
+    alert("Nhập sai tên hoặc mật khẩu !!!");
+    form.username.focus();
+  });
+
   return false;
 }
 
@@ -235,48 +242,65 @@ function signUp(form) {
   var email = form.email.value;
   var username = form.newUser.value;
   var pass = form.newPass.value;
-  var newUser = new User(username, pass, ho, ten, email);
 
-  // Lấy dữ liệu các khách hàng hiện có
-  var listUser = getListUser();
-  if (pass.length < 8) {
-    alert("Mật khẩu tối thiểu 8 ký tự");
-    return false;
-  }
-  var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+  // Mã hóa mật khẩu bằng SHA-256
+  sha256(pass).then(function (hashedPass) {
+    var newUser = new User(username, hashedPass, ho, ten, email);
 
-  if (!regex.test(pass)) {
-    alert(
-      "Mật khẩu phải bao gồm ít nhất một chữ cái viết hoa, một chữ cái viết thường và một số"
-    );
-    return false;
-  }
-  // Kiểm tra trùng admin
-  for (var ad of adminInfo) {
-    if (newUser.username == ad.username) {
-      alert("Tên đăng nhập đã có người sử dụng !!");
+    // Lấy dữ liệu các khách hàng hiện có
+    var listUser = getListUser();
+    if (pass.length < 8) {
+      alert("Mật khẩu tối thiểu 8 ký tự");
       return false;
     }
-  }
+    var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
 
-  // Kiểm tra xem dữ liệu form có trùng với khách hàng đã có không
-  for (var u of listUser) {
-    if (newUser.username == u.username) {
-      alert("Tên đăng nhập đã có người sử dụng !!");
+    if (!regex.test(pass)) {
+      alert(
+        "Mật khẩu phải bao gồm ít nhất một chữ cái viết hoa, một chữ cái viết thường và một số"
+      );
       return false;
     }
-  }
+    // Kiểm tra trùng admin
+    for (var ad of adminInfo) {
+      if (newUser.username == ad.username) {
+        alert("Tên đăng nhập đã có người sử dụng !!");
+        return false;
+      }
+    }
 
-  // Lưu người mới vào localstorage
-  listUser.push(newUser);
-  window.localStorage.setItem("ListUser", JSON.stringify(listUser));
+    // Kiểm tra xem dữ liệu form có trùng với khách hàng đã có không
+    for (var u of listUser) {
+      if (newUser.username == u.username) {
+        alert("Tên đăng nhập đã có người sử dụng !!");
+        return false;
+      }
+    }
 
-  // Đăng nhập vào tài khoản mới tạo
-  window.localStorage.setItem("CurrentUser", JSON.stringify(newUser));
-  alert("Đăng kí thành công, Bạn sẽ được tự động đăng nhập!");
-  location.reload();
+    // Lưu người mới vào localStorage
+    listUser.push(newUser);
+    window.localStorage.setItem("ListUser", JSON.stringify(listUser));
+
+    // Đăng nhập vào tài khoản mới tạo
+    window.localStorage.setItem("CurrentUser", JSON.stringify(newUser));
+    alert("Đăng kí thành công, Bạn sẽ được tự động đăng nhập!");
+    location.reload();
+  });
 
   return false;
+}
+
+// Hàm để mã hóa mật khẩu bằng SHA-256
+function sha256(input) {
+  var encoder = new TextEncoder();
+  var data = encoder.encode(input);
+  return crypto.subtle.digest("SHA-256", data).then(function (buffer) {
+    var hashArray = Array.from(new Uint8Array(buffer));
+    var hashHex = hashArray
+      .map((byte) => byte.toString(16).padStart(2, "0"))
+      .join("");
+    return hashHex;
+  });
 }
 
 function logOut() {
@@ -580,10 +604,10 @@ function addTopNav() {
 	<div class="top-nav group">
         <section>
             <div class="social-top-nav">
-            <a href="#" class="fab fa-facebook"></a>
-            <a href="#" class="fab fa-twitter"></a>
-            <a href="#" class="fab fa-google"></a>
-            <a href="#" class="fab fa-youtube"></a>
+            <a href="https://www.facebook.com/profile.php?id=61550857511656" class="fab fa-facebook"></a>
+            <a href="https://github.com/dinorap" class="fab fa-github github-link"></a>
+            <a href="https://www.google.com.vn/?hl=vi" class="fab fa-google"></a>
+            <a href="https://www.youtube.com/" class="fab fa-youtube"></a>
             </div> <!-- End Social Topnav -->
 
             <ul class="top-nav-quicklink flexContain">

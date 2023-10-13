@@ -54,7 +54,7 @@ function addInfoUser(user) {
         <tr>
             <td>Mật khẩu: </td>
             <td style="text-align: center;"> 
-                <i class="fa fa-pencil" id="butDoiMatKhau" onclick="openChangePass()"> Đổi mật khẩu</i> 
+            <i class="fa fa-pencil" id="butDoiMatKhau" onclick="openChangePass()"> <b>Đổi mật khẩu</b></i> 
             </td>
             <td></td>
         </tr>
@@ -98,7 +98,7 @@ function addInfoUser(user) {
         </tr>
         <tr>
             <td>Email: </td>
-            <td> <input type="text" value="` +
+            <td> <input type="email" required value="` +
     user.email +
     `" readonly> </td>
             <td> <i class="fa fa-pencil" onclick="changeInfo(this, 'email')"></i> </td>
@@ -133,40 +133,69 @@ function openChangePass() {
 function changePass() {
   var khungChangePass = document.getElementById("khungDoiMatKhau");
   var inps = khungChangePass.getElementsByTagName("input");
-  if (inps[0].value != currentUser.pass) {
-    alert("Sai mật khẩu !!");
-    inps[0].focus();
-    return;
-  }
-  if (inps[1] == "") {
-    inps[1].focus();
-    alert("Chưa nhập mật khẩu mới !");
-  }
-  if (inps[1].value != inps[2].value) {
-    alert("Mật khẩu không khớp");
-    inps[2].focus();
-    return;
-  }
 
-  var temp = copyObject(currentUser);
-  currentUser.pass = inps[1].value;
+  var currentPassword = inps[0].value;
 
-  // cập nhật danh sách sản phẩm trong localstorage
-  setCurrentUser(currentUser);
-  updateListUser(temp, currentUser);
+  // Mã hóa mật khẩu cũ
+  sha256(currentPassword).then(function (hashedCurrentPassword) {
+    if (hashedCurrentPassword !== currentUser.pass) {
+      alert("Sai mật khẩu !!");
+      inps[0].focus();
+      return;
+    }
 
-  // Cập nhật trên header
-  capNhat_ThongTin_CurrentUser();
+    var newPassword = inps[1].value;
+    var confirmPassword = inps[2].value;
+    if (newPassword.length < 8) {
+      alert("Mật khẩu tối thiểu 8 ký tự");
+      return false;
+    }
+    var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
 
-  // thông báo
-  addAlertBox("Thay đổi mật khẩu thành công.", "#5f5", "#000", 4000);
-  openChangePass();
+    if (!regex.test(newPassword)) {
+      alert(
+        "Mật khẩu phải bao gồm ít nhất một chữ cái viết hoa, một chữ cái viết thường và một số"
+      );
+      return false;
+    }
+    if (newPassword === "") {
+      alert("Chưa nhập mật khẩu mới !");
+      inps[1].focus();
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      alert("Mật khẩu không khớp");
+      inps[2].focus();
+      return;
+    }
+
+    // Mã hóa mật khẩu mới bằng SHA-256
+    sha256(newPassword).then(function (hashedPassword) {
+      var temp = copyObject(currentUser);
+      currentUser.pass = hashedPassword;
+
+      // Cập nhật danh sách sản phẩm trong local storage
+      setCurrentUser(currentUser);
+      updateListUser(temp, currentUser);
+
+      // Cập nhật trên header
+      capNhat_ThongTin_CurrentUser();
+
+      // Thông báo
+      addAlertBox("Thay đổi mật khẩu thành công.", "#5f5", "#000", 4000);
+      openChangePass();
+    });
+  });
 }
 
 function changeInfo(iTag, info) {
   var inp =
     iTag.parentElement.previousElementSibling.getElementsByTagName("input")[0];
-
+  if (inp.value === "") {
+    alert("Không được để trống thông tin!");
+    return;
+  }
   // Đang hiện
   if (!inp.readOnly && inp.value != "") {
     if (info == "username") {
@@ -189,11 +218,17 @@ function changeInfo(iTag, info) {
                     </h3>`;
       }
     } else if (info == "email") {
+      var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      if (!emailPattern.test(inp.value)) {
+        alert("Email không hợp lệ!");
+        return;
+      }
       var users = getListUser();
+
       for (var u of users) {
         if (u.email == inp.value && u.username != currentUser.username) {
           alert("Email đã có người sử dụng !!");
-          inp.value = currentUser.email;
+          // inp.value = currentUser.email;
           return;
         }
       }
