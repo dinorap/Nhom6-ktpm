@@ -242,7 +242,7 @@ function signUp(form) {
   var email = form.email.value;
   var username = form.newUser.value;
   var pass = form.newPass.value;
-
+  var opass = form.oldPass.value;
   // Mã hóa mật khẩu bằng SHA-256
   sha256(pass).then(function (hashedPass) {
     var newUser = new User(username, hashedPass, ho, ten, email);
@@ -259,6 +259,10 @@ function signUp(form) {
       alert(
         "Mật khẩu phải bao gồm ít nhất một chữ cái viết hoa, một chữ cái viết thường và một số"
       );
+      return false;
+    }
+    if (opass != pass) {
+      alert("Mật khẩu bạn nhập không trùng nhau");
       return false;
     }
     // Kiểm tra trùng admin
@@ -813,6 +817,13 @@ function addContainTaiKhoan() {
                                 Mật khẩu<span class="req">*</span>
                             </label>
                             <input name="newPass" type="password" required autocomplete="off" />
+                        </div> <!-- /pass -->
+                        <div class="field-wrap">
+                            <label>
+                            <i class="fas fa-lock"></i>
+                                Nhập lại mật khẩu<span class="req">*</span>
+                            </label>
+                            <input name="oldPass" type="password" required autocomplete="off" />
                         </div> <!-- /pass -->
 
                         <button type="submit" class="button button-block" />Tạo tài khoản</button>
