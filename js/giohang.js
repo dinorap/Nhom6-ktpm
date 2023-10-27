@@ -130,7 +130,7 @@ function addProductToTable(user) {
 
 function xoaSanPhamTrongGioHang(i) {
   if (window.confirm("Xác nhận hủy mua")) {
-    currentuser.products.splice(i, 1);
+    currentuser.products.splice(i, 1);//loại bỏ từ vị trí i 1 sản phẩm 
     capNhatMoiThu();
   }
 }
