@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.37">
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <link rel="shortcut icon" href="img/favicon.ico" />
 
@@ -78,14 +78,16 @@
                 <select class="sele" id="tinh">
                   <option disabled selected>--Chọn Tỉnh/Thành phố--</option>
                 </select>
-                <select class="sele" id="huyen" ">
+                <select class="sele" id="huyen">
                   <option disabled selected>--Chọn Huyện/Quận--</option>
                 </select>
-                <select class=" sele" id="xa">
+
+                <select class="sele" id="xa">
                   <option disabled selected>--Chọn Phường/Xã--</option>
                 </select>
               </div>
-              <div class="error-message"></div>
+              <div class=" error-message">
+              </div>
               <input id="sonha" type="text" placeholder="Số nhà">
 
             </div>
@@ -222,7 +224,7 @@
       var tinhThanhPhoSelect = document.getElementById('tinh');
       var huyenQuanSelect = document.getElementById('huyen');
       var phuongXaSelect = document.getElementById('xa');
-
+      var sonhaInput = document.getElementById("sonha")
       var errorMessages = document.querySelectorAll(".error-message");
 
       // Xóa bất kỳ thông báo lỗi nào đã hiển thị trước đó
@@ -235,15 +237,33 @@
         errorMessages[0].textContent = "Vui lòng nhập đầy đủ họ tên.";
         isValid = false;
       }
+      if (sonhaInput.value === "") {
+        errorMessages[0].textContent = "Vui lòng nhập đầy đủ thông tin.";
+        isValid = false;
+      }
       if (emailInput.value === "") {
         errorMessages[1].textContent = "Vui lòng nhập Email.";
         isValid = false;
+      } else {
+        // Sử dụng biểu thức chính quy để kiểm tra định dạng email
+        var emailPattern = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+        if (!emailPattern.test(emailInput.value)) {
+          errorMessages[1].textContent = "Email không hợp lệ.";
+          isValid = false;
+        }
       }
       if (soDienThoaiInput.value === "") {
         errorMessages[2].textContent = "Vui lòng nhập số điện thoại.";
         isValid = false;
+      } else {
+        // Sử dụng biểu thức chính quy để kiểm tra định dạng số điện thoại
+        var phonePattern = /^[0-9]{10}$/; // Ví dụ: 10 chữ số
+        if (!phonePattern.test(soDienThoaiInput.value)) {
+          errorMessages[2].textContent = "Số điện thoại không hợp lệ định dạng 10 chữ số";
+          isValid = false;
+        }
       }
-      if (tinhThanhPhoSelect.value === "--Chọn Tỉnh/Thành phố--" || huyenQuanSelect === '--Chọn Huyện/Quận--' || phuongXaSelect === '--Chọn Phường/Xã--') {
+      if (tinhThanhPhoSelect.value === "--Chọn Tỉnh/Thành phố--" || huyenQuanSelect.value === '--Chọn Huyện/Quận--' || phuongXaSelect.value === '--Chọn Phường/Xã--') {
         errorMessages[3].textContent = "Vui lòng nhập đầy đủ địa chỉ.";
         isValid = false;
       }

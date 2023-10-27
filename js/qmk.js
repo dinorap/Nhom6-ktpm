@@ -112,8 +112,8 @@ function generateRandomPassword(length) {
   return password;
 }
 
-// Hàm kiểm tra địa chỉ email hợp lệ (đơn giản)
-function isValidEmail(email) {
-  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  return emailPattern.test(email);
-}
+// // Hàm kiểm tra địa chỉ email hợp lệ (đơn giản)
+// function isValidEmail(email) {
+//   const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+//   return emailPattern.test(email);
+// }

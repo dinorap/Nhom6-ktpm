@@ -1132,7 +1132,7 @@ var list_products = [
       camaraFront: "12 MP",
       cpu: "Apple A17",
       ram: "4 GB",
-      rom: "128 GB",
+      rom: "128",
       microUSB: "Không",
       battery: "4200 mAh, có sạc nhanh",
     },
@@ -1239,7 +1239,7 @@ var list_products = [
   },
 
   {
-    name: " OPPO Reno 5G",
+    name: "OPPO Reno 5G",
     company: "Oppo",
     img: "https://cdn.tgdd.vn/Products/Images/42/309722/oppo-reno10-blue-thumbnew-600x600.jpg",
     price: "9.990.000",

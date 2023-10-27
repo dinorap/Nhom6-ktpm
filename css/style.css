@@ -81,7 +81,23 @@ hr {
     -o-transition: 0.3s;
     transition: 0.3s;
 }
-
+#alert-top {
+    z-index: 200; /* Luôn trên cùng (đè lên những thứ khác) */
+    display: block;
+    position: fixed;
+    top: 0; /* Đặt phần trên cùng của màn hình */
+    left: 50%; /* Đặt tại giữa theo chiều ngang */
+    transform: translateX(-50%); /* Dịch chuyển lề trái 50% để căn giữa theo chiều ngang */
+    padding: 20px;
+    background-color: #111;
+    opacity: 0;
+    color: white;
+    font-weight: bold;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+    
+}
 #closebtn {
     margin-left: 15px;
     color: white;

@@ -55,9 +55,9 @@ function phanTich_URL_chiTietSanPham() {
   if (sanPhamHienTai.rateCount > 0) {
     for (var i = 1; i <= 5; i++) {
       if (i <= sanPhamHienTai.star) {
-        rating += `<i class="fa fa-star"></i>`;
+        rating += `<i class="fa fa-star"></i>`; // sao vàng
       } else {
-        rating += `<i class="fa fa-star-o"></i>`;
+        rating += `<i class="fa fa-star-o"></i>`; //sao đen
       }
     }
     rating += `<span> ` + sanPhamHienTai.rateCount + ` đánh giá</span>`;
@@ -118,7 +118,7 @@ function phanTich_URL_chiTietSanPham() {
   // Khởi động thư viện hỗ trợ banner - chỉ chạy sau khi tạo xong hình nhỏ
   var owl = $(".owl-carousel");
   owl.owlCarousel({
-    items: 5,
+    items: 13,
     center: true,
     smartSpeed: 450,
   });
@@ -219,13 +219,6 @@ function addKhungSanPham(list_sanpham, tenKhung, color, ele) {
     color[0] +
     ` 100%);`;
   var borderColor = `border-color: ` + color[0];
-  var borderA =
-    `	border-left: 2px solid ` +
-    color[0] +
-    `;
-					border-right: 2px solid ` +
-    color[0] +
-    `;`;
 
   // mở tag
   var s =

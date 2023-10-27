@@ -23,9 +23,9 @@ function khoiTao() {
   list_products = getListProducts() || list_products;
   adminInfo = getListAdmin() || adminInfo;
 
-  setupEventTaiKhoan();
-  capNhat_ThongTin_CurrentUser();
-  addEventCloseAlertButton();
+  setupEventTaiKhoan(); //hiệu ứng input và chuyển tab log-sign
+  capNhat_ThongTin_CurrentUser(); //hiện thông tin lên thanh header
+  addEventCloseAlertButton(); //đóng alert ở footer
 }
 
 // ========= Các hàm liên quan tới danh sách sản phẩm =========
@@ -37,12 +37,11 @@ function setListProducts(newList) {
 function getListProducts() {
   return JSON.parse(window.localStorage.getItem("ListProducts"));
 }
-
-function timKiemTheoTen(list, ten, soluong) {
+//list là danh sách sản phẩm , ten vd Huawei Mate 20 Pro , indexof kiểm tra xem t có tồn tại trong sp ko bắt đầu từ vi tri nào
+function timKiemTheoTen(list, ten) {
   var tempList = copyObject(list);
   var result = [];
   ten = ten.split(" ");
-
   for (var sp of tempList) {
     var correct = true;
     for (var t of ten) {
@@ -55,10 +54,9 @@ function timKiemTheoTen(list, ten, soluong) {
       result.push(sp);
     }
   }
-
   return result;
 }
-
+// tìm theo mã sp
 function timKiemTheoMa(list, ma) {
   for (var l of list) {
     if (l.masp == ma) return l;
@@ -87,7 +85,21 @@ function addAlertBox(text, bgcolor, textcolor, time) {
       al.style.zIndex = 0;
     }, time);
 }
+function addAlertBoxtop(text, bgcolor, textcolor, time) {
+  var al = document.getElementById("alert-top");
+  al.childNodes[0].nodeValue = text;
+  al.style.backgroundColor = bgcolor;
+  al.style.opacity = 1;
+  al.style.zIndex = 200;
 
+  if (textcolor) al.style.color = textcolor;
+  if (time)
+    setTimeout(function () {
+      al.style.opacity = 0;
+      al.style.zIndex = 0;
+    }, time);
+}
+//khi di chuột vào closebtn thì sự kiện sẽ đc xảy ra sk ẩn html đi
 function addEventCloseAlertButton() {
   document.getElementById("closebtn").addEventListener("mouseover", (event) => {
     // event.target.parentElement.style.display = "none";
@@ -97,6 +109,7 @@ function addEventCloseAlertButton() {
 }
 
 // ================ Cart Number + Thêm vào Giỏ hàng ======================
+// animation khi thêm sản phẩm vào giỏ hàng sẽ hiện to lên rồi thu nhỏ vòng đỏ lại
 function animateCartNumber() {
   // Hiệu ứng cho icon giỏ hàng
   var cn = document.getElementsByClassName("cart-number")[0];
@@ -113,7 +126,7 @@ function animateCartNumber() {
 function themVaoGioHang(masp, tensp) {
   var user = getCurrentUser();
   if (!user) {
-    alert("Bạn cần đăng nhập để mua hàng !");
+    addAlertBoxtop("Bạn cần đăng nhập để mua hàng !", "#aa0000", "#fff", 10000);
     showTaiKhoan(true);
     return;
   }
@@ -171,6 +184,7 @@ function setCurrentUser(u) {
 function getListUser() {
   var data = JSON.parse(window.localStorage.getItem("ListUser")) || [];
   var l = [];
+
   for (var d of data) {
     l.push(d);
   }
@@ -206,14 +220,23 @@ function logIn(form) {
     for (var u of listUser) {
       if (u.username === name && u.pass === hashedPass) {
         if (u.off) {
-          alert("Tài khoản này đang bị khoá. Không thể đăng nhập.");
+          addAlertBoxtop(
+            "Tài khoản này đang bị khoá. Không thể đăng nhập.",
+            "#aa0000",
+            "#fff",
+            10000
+          );
           return false;
         }
 
         setCurrentUser(u);
 
+        addAlertBoxtop("Chào mừng bạn đăng nhập", "#17c671", "#fff", 10000);
+        setTimeout(function () {
+          location.reload();
+        }, 2000);
         // Reload lại trang
-        location.reload();
+
         return false;
       }
     }
@@ -221,15 +244,31 @@ function logIn(form) {
     // Đăng nhập vào admin (giữ nguyên phần đăng nhập bằng admin)
     for (var ad of adminInfo) {
       if (equalUser({ username: name, pass: pass }, ad)) {
-        alert("Xin chào admin .. ");
-        window.localStorage.setItem("admin", true);
-        window.location.assign("admin.html");
+        // Hiển thị alert
+
+        addAlertBoxtop(
+          "Chào mừng admin quay lại <3",
+          "#17c671",
+          "#fff",
+          100000
+        );
+        setTimeout(function () {
+          window.localStorage.setItem("admin", true);
+          window.location.assign("admin.html");
+        }, 2000); // 3000 ms (3 giây)
+
+        // Chuyển hướng đến trang "admin.html"
         return false;
       }
     }
 
     // Trả về thông báo nếu không khớp
-    alert("Nhập sai tên hoặc mật khẩu !!!");
+    addAlertBoxtop(
+      "Nhập sai tên tài khoản hoặc mật khẩu !!!",
+      "#aa0000",
+      "#fff",
+      5000
+    );
     form.username.focus();
   });
 
@@ -440,54 +479,55 @@ function stringToNum(str, char) {
 function autocomplete(inp, arr) {
   var currentFocus;
 
+  // Bắt đầu lắng nghe sự kiện khi người dùng gõ phím
   inp.addEventListener("keyup", function (e) {
+    // Kiểm tra xem phím được gõ không phải là Enter, Mũi tên lên, hoặc Mũi tên xuống
     if (e.keyCode != 13 && e.keyCode != 40 && e.keyCode != 38) {
-      // not Enter,Up,Down arrow
       var a,
         b,
         i,
         val = this.value;
-
-      /*close any already open lists of autocompleted values*/
+      console.log(b);
+      // Đóng danh sách gợi ý nếu có
       closeAllLists();
       if (!val) {
         return false;
       }
       currentFocus = -1;
 
-      /*create a DIV element that will contain the items (values):*/
+      // Tạo một phần tử DIV để chứa các mục (giá trị) được gợi ý:
       a = document.createElement("DIV");
       a.setAttribute("id", this.id + "autocomplete-list");
       a.setAttribute("class", "autocomplete-items");
 
-      /*append the DIV element as a child of the autocomplete container:*/
+      // Thêm phần tử DIV vào phần tử chứa autocomplete:
       this.parentNode.appendChild(a);
 
-      /*for each item in the array...*/
+      // Duyệt qua danh sách mục và hiển thị những mục phù hợp với giá trị người dùng:
       for (i = 0; i < arr.length; i++) {
-        /*check if the item starts with the same letters as the text field value:*/
+        // Kiểm tra xem mục có bắt đầu bằng cùng những ký tự với giá trị trường nhập liệu không:
         if (
           arr[i].name.substr(0, val.length).toUpperCase() == val.toUpperCase()
         ) {
-          /*create a DIV element for each matching element:*/
+          // Tạo một phần tử DIV cho mỗi mục phù hợp:
           b = document.createElement("DIV");
 
-          /*make the matching letters bold:*/
+          // Làm cho những ký tự phù hợp được làm đậm:
           b.innerHTML =
             "<strong>" + arr[i].name.substr(0, val.length) + "</strong>";
           b.innerHTML += arr[i].name.substr(val.length);
 
-          /*insert a input field that will hold the current array item's value:*/
+          // Chèn một trường nhập liệu ẩn chứa giá trị của mục trong mảng:
           b.innerHTML += "<input type='hidden' value='" + arr[i].name + "'>";
 
-          /*execute a function when someone clicks on the item value (DIV element):*/
+          // Thực hiện một hàm khi người dùng nhấp vào mục giá trị (phần tử DIV):
           b.addEventListener("click", function (e) {
-            /*insert the value for the autocomplete text field:*/
+            // Chèn giá trị vào trường nhập liệu autocomplete:
             inp.value = this.getElementsByTagName("input")[0].value;
             inp.focus();
 
-            /*close the list of autocompleted values,
-                        (or any other open lists of autocompleted values:*/
+            // Đóng danh sách giá trị được gợi ý,
+            // hoặc đóng bất kỳ danh sách giá trị được gợi ý nào khác:
             closeAllLists();
           });
           a.appendChild(b);
@@ -495,27 +535,27 @@ function autocomplete(inp, arr) {
       }
     }
   });
-  /*execute a function presses a key on the keyboard:*/
+
+  // Xử lý sự kiện khi người dùng nhấn phím trên bàn phím:
   inp.addEventListener("keydown", function (e) {
     var x = document.getElementById(this.id + "autocomplete-list");
     if (x) x = x.getElementsByTagName("div");
     if (e.keyCode == 40) {
-      /*If the arrow DOWN key is pressed, increase the currentFocus variable:*/
+      // Nếu người dùng nhấn phím Mũi tên xuống, tăng biến currentFocus:
       currentFocus++;
-      /*and and make the current item more visible:*/
+      // và làm cho mục hiện tại trở nên nổi bật hơn:
       addActive(x);
+      console.log(currentFocus);
     } else if (e.keyCode == 38) {
-      //up
-      /*If the arrow UP key is pressed,
-            decrease the currentFocus variable:*/
+      // Nếu người dùng nhấn phím Mũi tên lên,
+      // giảm biến currentFocus:
       currentFocus--;
-      /*and and make the current item more visible:*/
+      // và làm cho mục hiện tại trở nên nổi bật hơn:
       addActive(x);
     } else if (e.keyCode == 13) {
-      /*If the ENTER key is pressed, prevent the form from being submitted,*/
-
+      // Nếu người dùng nhấn phím Enter, ngăn form được gửi đi,
+      // và mô phỏng việc nhấp vào mục "active":
       if (currentFocus > -1) {
-        /*and simulate a click on the "active" item:*/
         if (x) {
           x[currentFocus].click();
           e.preventDefault();
@@ -524,26 +564,24 @@ function autocomplete(inp, arr) {
     }
   });
 
+  // Hàm thêm lớp "autocomplete-active" vào mục đang "active":
   function addActive(x) {
-    /*a function to classify an item as "active":*/
     if (!x) return false;
-    /*start by removing the "active" class on all items:*/
     removeActive(x);
     if (currentFocus >= x.length) currentFocus = 0;
     if (currentFocus < 0) currentFocus = x.length - 1;
-    /*add class "autocomplete-active":*/
     x[currentFocus].classList.add("autocomplete-active");
   }
 
+  // Hàm loại bỏ lớp "autocomplete-active" khỏi tất cả các mục autocomplete:
   function removeActive(x) {
-    /*a function to remove the "active" class from all autocomplete items:*/
     for (var i = 0; i < x.length; i++) {
       x[i].classList.remove("autocomplete-active");
     }
   }
 
+  // Hàm đóng tất cả các danh sách giá trị được gợi ý trên trang, ngoại trừ danh sách được truyền vào:
   function closeAllLists(elmnt) {
-    /*close all autocomplete lists in the document, except the one passed as an argument:*/
     var x = document.getElementsByClassName("autocomplete-items");
     for (var i = 0; i < x.length; i++) {
       if (elmnt != x[i] && elmnt != inp) {
@@ -551,7 +589,8 @@ function autocomplete(inp, arr) {
       }
     }
   }
-  /*execute a function when someone clicks in the document:*/
+
+  // Thực hiện một hàm khi người dùng nhấp chuột bất kỳ nơi nào trên trang:
   document.addEventListener("click", function (e) {
     closeAllLists(e.target);
   });
@@ -605,6 +644,10 @@ function action() {
 // Thêm topnav vào trang
 function addTopNav() {
   document.write(`    
+  <div id="alert-top">
+  <span id="closebtn">&otimes;</span>
+  <span></span>
+</div>  
 	<div class="top-nav group">
         <section>
             <div class="social-top-nav">
@@ -630,7 +673,8 @@ function addTopNav() {
 
 // Thêm header
 function addHeader() {
-  document.write(`        
+  document.write(`
+        
 	<div class="header group">
         <div class="logo">
             <a href="index.html">
@@ -642,7 +686,7 @@ function addHeader() {
             <div class="search-header" style="position: relative; left: 162px; top: 1px;">
                 <form class="input-search" method="get" action="index.html">
                     <div class="autocomplete">
-                        <input id="search-box" name="search" autocomplete="off" type="text" placeholder="Nhập từ khóa tìm kiếm...">
+                        <input id="search-box" name="search" autocomplete="off" type="text" placeholder="Nhập từ khóa tìm kiếm..." required>
                         <button type="submit">
                             <i class="fas fa-search"></i>
                             Tìm kiếm
@@ -691,6 +735,7 @@ function addFooter() {
     <!-- ============== Alert Box ============= -->
     <div id="alert">
         <span id="closebtn">&otimes;</span>
+        <span></span>
     </div>
 
     <!-- ============== Footer ============= -->
@@ -732,7 +777,7 @@ function addContainTaiKhoan() {
 	<div class="containTaikhoan">
         <span class="close" onclick="showTaiKhoan(false);">&times;</span>
         <div class="taikhoan">
-
+       
             <ul class="tab-group">
                 <li class="tab active"><a href="#login">Đăng nhập</a></li>
                 <li class="tab"><a href="#signup">Đăng kí</a></li>
@@ -740,8 +785,9 @@ function addContainTaiKhoan() {
 
             <div class="tab-content">
                 <div id="login">
+                   
                     <h1>Chào mừng bạn trở lại!</h1>
-
+                    
                     <form onsubmit="return logIn(this);">
 
                         <div class="field-wrap">
@@ -855,35 +901,35 @@ function addPlc() {
     </div>`);
 }
 
-function shuffleArray(array) {
-  let currentIndex = array.length,
-    randomIndex;
+// function shuffleArray(array) {
+//   let currentIndex = array.length,
+//     randomIndex;
 
-  // While there remain elements to shuffle...
-  while (currentIndex != 0) {
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
+//   // While there remain elements to shuffle...
+//   while (currentIndex != 0) {
+//     // Pick a remaining element...
+//     randomIndex = Math.floor(Math.random() * currentIndex);
+//     currentIndex--;
 
-    // And swap it with the current element.
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex],
-      array[currentIndex],
-    ];
-  }
+//     // And swap it with the current element.
+//     [array[currentIndex], array[randomIndex]] = [
+//       array[randomIndex],
+//       array[currentIndex],
+//     ];
+//   }
 
-  return array;
-}
+//   return array;
+// }
 
-function checkLocalStorage() {
-  if (typeof Storage == "undefined") {
-    alert(
-      "Máy tính không hỗ trợ LocalStorage. Không thể lưu thông tin sản phẩm, khách hàng!!"
-    );
-  } else {
-    console.log("LocaStorage OKE!");
-  }
-}
+// function checkLocalStorage() {
+//   if (typeof Storage == "undefined") {
+//     alert(
+//       "Máy tính không hỗ trợ LocalStorage. Không thể lưu thông tin sản phẩm, khách hàng!!"
+//     );
+//   } else {
+//     console.log("LocaStorage OKE!");
+//   }
+// }
 
 // Di chuyển lên đầu trang
 function gotoTop() {
@@ -914,89 +960,83 @@ function getRandomColor() {
   return color;
 }
 
-// Test, not finished
-function auto_Get_Database() {
-  var ul = document.getElementsByClassName("homeproduct")[0];
-  var li = ul.getElementsByTagName("li");
-  for (var l of li) {
-    var a = l.getElementsByTagName("a")[0];
-    // name
-    var name = a.getElementsByTagName("h3")[0].innerHTML;
+// Kiểm tra dữ liệu thống kê xem có bao nhiêu sản phẩm thuộc loại này loại
+// function auto_Get_Database() {
+//   var ul = document.getElementsByClassName("homeproduct")[0];
+//   var li = ul.getElementsByTagName("li");
+//   for (var l of li) {
+//     var a = l.getElementsByTagName("a")[0];
+//     // name
+//     var name = a.getElementsByTagName("h3")[0].innerHTML;
 
-    // price
-    var price = a.getElementsByClassName("price")[0];
-    price = price.getElementsByTagName("strong")[0].innerHTML;
+//     // price
+//     var price = a.getElementsByClassName("price")[0];
+//     price = price.getElementsByTagName("strong")[0].innerHTML;
 
-    // img
-    var img = a.getElementsByTagName("img")[0].src;
-    console.log(img);
+//     // img
+//     var img = a.getElementsByTagName("img")[0].src;
+//     console.log(img);
 
-    // // rating
-    // var rating = a.getElementsByClassName('ratingresult')[0];
-    // var star = rating.getElementsByClassName('icontgdd-ystar').length;
-    // var rateCount = parseInt(rating.getElementsByTagName('span')[0].innerHTML);
+//     // // rating
+//     var rating = a.getElementsByClassName("ratingresult")[0];
+//     var star = rating.getElementsByClassName("icontgdd-ystar").length;
+//     var rateCount = parseInt(rating.getElementsByTagName("span")[0].innerHTML);
 
-    // // promo
-    // var tragop = a.getElementsByClassName('installment');
-    // if(tragop.length) {
+//     // // promo
+//     var tragop = a.getElementsByClassName("installment");
+//     if (tragop.length) {
+//     }
 
-    // }
+//     var giamgia = a.getElementsByClassName("discount").length;
+//     var giareonline = a.getElementsByClassName("shockprice").length;
+//   }
+// }
 
-    // var giamgia = a.getElementsByClassName('discount').length;
-    // var giareonline = a.getElementsByClassName('shockprice').length;
-  }
-}
+// function getThongTinSanPhamFrom_TheGioiDiDong() {
+//   (function () {
+//     var ul = document.getElementsByClassName("parameter")[0];
+//     var li_s = ul.getElementsByTagName("li");
+//     var result = {};
+//     result.detail = {};
 
-function getThongTinSanPhamFrom_TheGioiDiDong() {
-  javascript: (function () {
-    var s = document.createElement("script");
-    s.innerHTML = `
-			(function () {
-				var ul = document.getElementsByClassName('parameter')[0];
-				var li_s = ul.getElementsByTagName('li');
-				var result = {};
-				result.detail = {};
-	
-				for (var li of li_s) {
-					var loai = li.getElementsByTagName('span')[0].innerText;
-					var giatri = li.getElementsByTagName('div')[0].innerText;
-	
-					switch (loai) {
-						case "Màn hình:":
-							result.detail.screen = giatri.replace('"', "'");
-							break;
-						case "Hệ điều hành:":
-							result.detail.os = giatri;
-							break;
-						case "Camera sau:":
-							result.detail.camara = giatri;
-							break;
-						case "Camera trước:":
-							result.detail.camaraFront = giatri;
-							break;
-						case "CPU:":
-							result.detail.cpu = giatri;
-							break;
-						case "RAM:":
-							result.detail.ram = giatri;
-							break;
-						case "Bộ nhớ trong:":
-							result.detail.rom = giatri;
-							break;
-						case "Thẻ nhớ:":
-							result.detail.microUSB = giatri;
-							break;
-						case "Dung lượng pin:":
-							result.detail.battery = giatri;
-							break;
-					}
-				}
-	
-				console.log(JSON.stringify(result, null, "\t"));
-			})();`;
-    document.body.appendChild(s);
-  })();
-}
+//     for (var li of li_s) {
+//       var loai = li.getElementsByTagName("span")[0].innerText;
+//       var giatri = li.getElementsByTagName("div")[0].innerText;
+
+//       switch (loai) {
+//         case "Màn hình:":
+//           result.detail.screen = giatri.replace('"', "'");
+//           break;
+//         case "Hệ điều hành:":
+//           result.detail.os = giatri;
+//           break;
+//         case "Camera sau:":
+//           result.detail.camara = giatri;
+//           break;
+//         case "Camera trước:":
+//           result.detail.camaraFront = giatri;
+//           break;
+//         case "CPU:":
+//           result.detail.cpu = giatri;
+//           break;
+//         case "RAM:":
+//           result.detail.ram = giatri;
+//           break;
+//         case "Bộ nhớ trong:":
+//           result.detail.rom = giatri;
+//           break;
+//         case "Thẻ nhớ:":
+//           result.detail.microUSB = giatri;
+//           break;
+//         case "Dung lượng pin:":
+//           result.detail.battery = giatri;
+//           break;
+//       }
+//     }
+
+//     console.log(JSON.stringify(result, null, "	"));
+//   })();
+// }
 
 // $('.taikhoan').find('input').on('keyup blur focus', function (e) {
 
